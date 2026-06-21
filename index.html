@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Lulus! 🎓✨</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e8f0fe, #fdf0f5);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #5a5a5a;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 35px 25px;
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(186, 215, 233, 0.4);
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            border: 5px dashed #bbf2d6;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .header-emoji {
+            font-size: 55px;
+            margin-bottom: 5px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            color: #ff8fa3;
+            font-size: 2.2rem;
+            margin: 10px 0 5px 0;
+            font-weight: 800;
+        }
+
+        .sub-title {
+            font-size: 1.2rem;
+            color: #70e000;
+            background: #e9f5db;
+            padding: 6px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-action {
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.05rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 85%;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+
+        .btn-kejutan {
+            background: linear-gradient(135deg, #ff8fa3, #ffb3c1);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .btn-kejutan:hover { transform: scale(1.04); background: #ff758f; }
+
+        .btn-rahasia {
+            background: linear-gradient(135deg, #b5179e, #7209b7);
+        }
+        .btn-rahasia:hover { transform: scale(1.04); background: #560bad; }
+
+        /* Pop-up / Overlay Surat */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s ease;
+        }
+
+        .overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup-surat {
+            background: #fffdf9;
+            padding: 30px 20px;
+            border-radius: 24px;
+            width: 85%;
+            max-width: 340px;
+            text-align: center;
+            border: 4px solid #7209b7;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: scale(0.8);
+            transition: 0.3s ease;
+        }
+
+        .overlay.active .popup-surat {
+            transform: scale(1);
+        }
+
+        .popup-surat h3 { color: #7209b7; margin-top: 0; font-size: 1.3rem; }
+
+        .popup-surat input {
+            width: 80%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .popup-surat input:focus {
+            border-color: #7209b7;
+            outline: none;
+        }
+
+        .isi-surat {
+            display: none;
+            background: #ffffff;
+            border: 2px dashed #ffb3c1;
+            padding: 18px;
+            border-radius: 15px;
+            margin-top: 15px;
+            text-align: left;
+            font-style: italic;
+            max-height: 220px;
+            overflow-y: auto;
+            line-height: 1.6;
+            color: #4a4a4a;
+        }
+
+        .btn-close {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Dekorasi Tambahan Lucu */
+        .decor { position: absolute; font-size: 25px; opacity: 0.6; }
+        .decor-1 { top: 15px; left: 15px; }
+        .decor-2 { top: 15px; right: 15px; }
+        .decor-3 { bottom: 15px; left: 15px; }
+        .decor-4 { bottom: 15px; right: 15px; }
+
+        .confetti {
+            position: fixed; width: 10px; height: 10px;
+            top: -10px; z-index: 999;
+            animation: fall linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <span class="decor decor-1">🎈</span>
+        <span class="decor decor-2">✨</span>
+        <span class="decor decor-3">🧸</span>
+        <span class="decor decor-4">🐱</span>
+
+        <span class="header-emoji">🎓</span>
+        <h1>Selamat Lulus ya zya! ✨</h1>
+        <div class="sub-title">Untuk zya pretty nan imum</div> 
+        
+        <p>Selamat atas kelulusannya ya zya! Semua usaha kerasmu akhirnya terbayar lunas hari ini. Sukses terus untuk langkah ke depan, raih cita-citamu, dan jangan lupa untuk selalu bahagia! 🥳🎉</p>
+        
+        <div class="btn-container">
+            <button class="btn-action btn-kejutan" onclick="bikinKonfeti()">Klik Kejutan! 🥳🎉</button>
+            <button class="btn-action btn-rahasia" onclick="bukaPopup()">Surat Rahasia 🔒</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlaySurat">
+        <div class="popup-surat">
+            <h3 id="judulPopup">Masukkan Kode Rahasia 🗝️</h3>
+            
+            <div id="areaInput">
+                <input type="password" id="kodeInput" placeholder="Ketik kodenya...">
+                <br>
+                <button class="btn-action btn-rahasia" style="width: auto; padding: 10px 25px; font-size: 0.95rem;" onclick="cekKode()">Buka Surat</button>
+            </div>
+
+            <div class="isi-surat" id="isiSurat">
+                <strong>Hai zya 🤗</strong><br><br>
+                Ini adalah pesan rahasia yang sengaja aku sembunyiin di sini. bentar kok kamu tau kodenya🤔<br><br> 
+                Aku cuma mau bilang terimakasih ya zya, kamu udah mau nemenin aku pas aku hampir nyerah, terimakasih sudah mau dengerin aku cerita🤗, makasih juga kamu udah mau Help me when I ask about skincare, thank you😊.
+                Makasih ya udah bikin aku semangat lagi, aku doain semoga yang kamu inginkan semuanya tercapai, semoga kamu di kelilingi orang orang baik, dan semoga kamu mendapatkan orang yang tepat buat kamu👍
+                Kamu gak usah mikirin kabar aku ya 😊, kamu pikirin aja yang penting bagimu dan masa depanmu, aku akan ngilang dengan durasi yang lama, jika kamu udah baca sampai sini aku harap kamu bisa lupain semua tentang seorang yang bernama Nathan😊, ehh aku rasa kita akan ketemu langsung di suatu tempat, I think 
+            </div>
+
+            <br>
+            <button class="btn-close" onclick="tutupPopup()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        // KODE PIN UNTUK MEMBUKA SURAT (Bisa kamu ganti sesukamu)
+        const KODE_RAHASIA = "22.22"; 
+
+        function bukaPopup() {
+            document.getElementById('overlaySurat').classList.add('active');
+        }
+
+        function tutupPopup() {
+            document.getElementById('overlaySurat').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('areaInput').style.display = 'block';
+                document.getElementById('isiSurat').style.display = 'none';
+                document.getElementById('kodeInput').value = '';
+                document.getElementById('judulPopup').innerText = 'Masukkan Kode Rahasia 🗝️';
+            }, 300);
+        }
+
+        function cekKode() {
+            let inputUser = document.getElementById('kodeInput').value;
+            if(inputUser === KODE_RAHASIA) {
+                document.getElementById('areaInput').style.display = 'none';
+                document.getElementById('judulPopup').innerText = 'Surat Terbuka! 📝✨';
+                document.getElementById('isiSurat').style.display = 'block';
+                bikinKonfeti(); 
+            } else {
+                alert("Waduh, kodenya salah! Coba ingat-ingat lagi 🔍");
+            }
+        }
+
+        function bikinKonfeti() {
+            for (let i = 0; i < 60; i++) {
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+                confetti.style.backgroundColor = ['#ff758f','#72efdd','#ffd166','#9b5de5','#f15bb5'][Math.floor(Math.random() * 5)];
+                confetti.style.transform = `scale(${Math.random() * 0.8 + 0.4})`;
+                document.body.appendChild(confetti);
+                setTimeout(() => { confetti.remove(); }, 4000);
+            }
+        }
+    </script>
+</body>
+</html>
